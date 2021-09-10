@@ -1,33 +1,38 @@
+ 
 (function (){
     'use strict'
 
-    var accountInfoList = function(){
-        var account = {
-            
-        } 
-    }
+    // reviling moduel pattern
+const accountCreator=(function(){
+  //this are hidden
+    let accountName;
+   let amount;
+   //this is revieled
+   return{
+       createAccount:function(name,amt){
+           accountName=name;
+           amount=amt;
 
-var accountModule = (function(){
-    let accname;
-    let balance;
+           return{name:accountName,balance:amount};
+       }
+   }
 
-    return{
-        create: function(name, deposit){
-            accname = name;
-            balance = deposit;
-        }
-    
-    };
 })();
 
-function createAccount(){
-    var _accountname = document.getElementById('acctName').value;
-    var _balance = document.getElementById('deposit').value; 
+const accountCreated=[];
 
-    var newAccount = accountModule.create(_accountname, _balance);
+function createNewAccount(){
+    const newAccount=accountCreator.createAccount(document.getElementById('accName').value,document.getElementById('deposit').value);
+    accountCreated.push(newAccount);
+    document.getElementById('disResult').value='';
 
+    for(const account of accountCreated){
+        document.getElementById('disResult').value+=`Account Name:${account.name}, Balance:${account.balance}`
+    }
 }
+
 window.onload=function(){
-    document.getElementById('createAcc').onclick=createAccount
+    document.getElementById('createAcc').onclick=createNewAccount
 }
-})();   
+
+})();
